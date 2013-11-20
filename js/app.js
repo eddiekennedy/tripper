@@ -41,9 +41,64 @@ var app = (function() {
     });
   };
 
+  // Backboned
+  module.Router = Backbone.Router.extend({
+    initialize: function() {
+      module.itemCollection = new module.Collection();
+      module.layout = new Backbone.Layout({
+        template: '#main',
+        views: {
+          'div.content': new module.ListView({ collection: module.itemCollection  })
+        }
+      });
+      // Append the Layout and Render 
+      module.layout.$el.appendTo('#main');
+      module.layout.render();
+    }
+  });
+
+  module.Model = Backbone.Model.extend({});
+
+  module.Collection = Backbone.Collection.extend({
+    model: String(module.Model),
+    url: ''
+  });
+
+  module.ListItemView = Backbone.Layout.extend({
+    template: '#list-item',
+    tagName: 'li',
+    serialize: function() {
+      return { item: this.model };
+    },
+    initialize: function() {
+      this.listenTo(this.model, "change", this.render);
+    }
+  });
+
+  module.ListView = Backbone.Layout.extend({
+    template: '#list',
+    tagName: 'ul',
+    initialize: function() {
+      this.listenTo(this.collection, {
+        "reset": this.render,
+        "remove": this.render
+      });
+    },
+    beforeRender: function() {
+      this.collection.each(function( item ) {
+        this.insertView('ul.vine-list', new module.ListItemView({
+          model: item
+        }));
+      }, this);
+    }
+  });
+
   module.init = function() {
     this.mapSetup();
     this.fetchData();
+    // Define Router and kick things off
+    var appRouter = new module.Router();
+    Backbone.history.start({ pushState: true });
   };
 
   module.init();

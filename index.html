@@ -6,12 +6,25 @@
 	</head>
 	<body>
 		<div id="map"></div>
+    <!-- // -->
+    <script id="main" type="text/template">
+      <div class="content"></div>
+    </script>
+    <!-- // -->
+    <script id="list" type="text/template">
+    	List Template
+    </script>
+    <!-- // -->
+    <script id="list-item" type="text/template">
+    		<%= item.get('name') %>
+    </script>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 		<script src="js/lib/tabletop.js"></script>
 		<script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
 		<script src="http://maps.stamen.com/js/tile.stamen.js?v1.2.3"></script>
 		<script src="js/lib/underscore-min.js"></script>
 		<script src="js/lib/backbone-min.js"></script>
+		<script type="text/javascript" src="js/lib/backbone.layoutmanager.js"></script>
 		<script src="js/app.js"></script>
 	</body>
 </html>
